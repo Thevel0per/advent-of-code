@@ -1,9 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
-	"bufio"
 	"regexp"
 	"strconv"
 )
@@ -15,7 +15,7 @@ var answer = 0
 
 func main() {
 	file, err := os.Open("/Users/qba/Code/advent-of-code/day_3/input.txt")
-	if err != nil  {
+	if err != nil {
 		panic(err)
 	}
 	defer file.Close()
@@ -25,10 +25,10 @@ func main() {
 	nextLine := ""
 	var currentNumberIndices [][]int
 
-    scanner := bufio.NewScanner(file)
+	scanner := bufio.NewScanner(file)
 
-    for scanner.Scan() {
-        inputLine := scanner.Text()
+	for scanner.Scan() {
+		inputLine := scanner.Text()
 		if currentLine == "" {
 			currentLine = inputLine
 			continue
@@ -36,8 +36,8 @@ func main() {
 			nextLine = inputLine
 		}
 
-		var partNumbersSet map[int]bool = make(map[int]bool) 
-		
+		var partNumbersSet map[int]bool = make(map[int]bool)
+
 		currentNumberIndices = numberRegexPattern.FindAllStringIndex(currentLine, -1)
 
 		if lineLength == 0 {
@@ -61,10 +61,10 @@ func main() {
 		// Move current line forward
 		prevLine = currentLine
 		currentLine = nextLine
-    }
+	}
 
 	// Evaluate last input line
-	var partNumbersSet map[int]bool = make(map[int]bool) 
+	var partNumbersSet map[int]bool = make(map[int]bool)
 	currentNumberIndices = numberRegexPattern.FindAllStringIndex(currentLine, -1)
 	checkPartNumbersAgainstLine(currentNumberIndices, prevLine, partNumbersSet)
 	checkPartNumbersAgainstLine(currentNumberIndices, currentLine, partNumbersSet)
@@ -72,12 +72,12 @@ func main() {
 
 	fmt.Println(answer)
 
-    if err := scanner.Err(); err != nil {
-        panic(err)
-    }
+	if err := scanner.Err(); err != nil {
+		panic(err)
+	}
 }
 
-func addNewPartNumbersToAnswer(currentNumberIndices [][]int, currentLine string, partNumbersSet map[int]bool){
+func addNewPartNumbersToAnswer(currentNumberIndices [][]int, currentLine string, partNumbersSet map[int]bool) {
 	for index, _ := range partNumbersSet {
 		partNumberIndices := currentNumberIndices[index]
 		numberString := currentLine[partNumberIndices[0]:partNumberIndices[1]]
